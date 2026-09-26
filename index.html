@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nations League Vormlijst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #121212;
+    --panel-2: #1a1a1a;
+    --line: #2a2a2a;
+    --ink: #f4f1ea;
+    --muted: #8d8a84;
+    --gold: #ffd21f;
+    --win: #ffd21f;
+    --draw: #bdb8ae;
+    --loss: #e5202e;
+    --display: 'Anton', 'Impact', sans-serif;
+    --body: 'Space Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); }
+  body {
+    background-image:
+      radial-gradient(circle at 85% -10%, rgba(255, 210, 31, .08), transparent 45%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 0 24px 64px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: relative; overflow: hidden;
+    border-bottom: 4px solid var(--ink);
+    padding: 40px 0 28px;
+    margin-bottom: 12px;
+  }
+  .label-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 700 12px/1 var(--body); letter-spacing: .32em; text-transform: uppercase;
+    border: 2px solid var(--ink); padding: 8px 12px;
+  }
+  .label-tag .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
+  h1 {
+    font: 400 clamp(52px, 10vw, 148px)/.86 var(--display);
+    text-transform: uppercase; letter-spacing: -.01em;
+    margin: 22px 0 0; max-width: 11ch;
+  }
+  h1 .hl { color: var(--gold); }
+  .sub { margin: 18px 0 0; max-width: 62ch; color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .sub b { color: var(--ink); font-weight: 500; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px;
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  }
+  .meta span b { color: var(--ink); font-weight: 700; }
+
+  /* Vinylplaat als decor */
+  .vinyl {
+    position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
+    width: 460px; aspect-ratio: 1; border-radius: 50%;
+    background:
+      radial-gradient(circle, var(--bg) 0 3.2%, var(--gold) 3.3% 16%, #111 16.2% 17%, transparent 17.2%),
+      repeating-radial-gradient(circle, #151515 0 2px, #0d0d0d 2px 4px);
+    box-shadow: 0 0 0 2px #1f1f1f inset;
+    animation: spin 14s linear infinite;
+    opacity: .9; pointer-events: none;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .vinyl { animation: none; } }
+
+  /* ---------- Legenda ---------- */
+  .legend { display: flex; flex-wrap: wrap; gap: 14px 24px; padding: 18px 0 8px; font-size: 13px; color: var(--muted); }
+  .legend .item { display: inline-flex; align-items: center; gap: 8px; }
+
+  /* ---------- League-rijen ---------- */
+  .league { margin-top: 44px; }
+  .league-head {
+    display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+    border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 18px;
+  }
+  .league-head h2 {
+    font: 400 clamp(38px, 5.5vw, 72px)/.9 var(--display); text-transform: uppercase; margin: 0;
+  }
+  .league-head h2 .letter {
+    display: inline-block; background: var(--ink); color: var(--bg); padding: 0 .16em; margin-left: .12em;
+  }
+  .league-head .side { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  .groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
+  /* ---------- Groepskaart ---------- */
+  .group {
+    background: var(--panel); border: 1px solid var(--line);
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  .group-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; background: var(--ink); color: var(--bg);
+  }
+  .group-head h3 { margin: 0; font: 400 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+  .group-head .code { font: 700 11px/1 var(--body); letter-spacing: .2em; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+  col.c-pos { width: 34px; } col.c-form { width: 120px; } col.c-gd { width: 36px; } col.c-pts { width: 44px; }
+  th {
+    font: 700 10px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+    text-align: left; padding: 10px 8px 8px; border-bottom: 1px solid var(--line);
+  }
+  th.num, td.num { text-align: right; }
+  td { padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  td.pos { width: 34px; font: 400 22px/1 var(--display); color: var(--muted); padding-left: 12px; }
+  tr.top td.pos { color: var(--gold); }
+  .team { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .team img { width: 22px; height: 22px; object-fit: contain; flex: none; }
+  .team span { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td.pts { font: 400 22px/1 var(--display); padding-right: 12px; }
+  tr.top td.pts { color: var(--gold); }
+  td.gd { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+
+  .form { display: flex; gap: 3px; }
+  .pill {
+    width: 19px; height: 19px; display: inline-grid; place-items: center;
+    font: 700 11px/1 var(--body); border-radius: 50%; cursor: default; position: relative; flex: none;
+  }
+  .pill.W { background: var(--win); color: #111; }
+  .pill.D { background: transparent; color: var(--draw); box-shadow: inset 0 0 0 2px var(--draw); }
+  .pill.L { background: var(--loss); color: #fff; }
+  .pill.none { background: var(--panel-2); color: var(--muted); }
+  .pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* Tooltip */
+  .tip {
+    position: fixed; z-index: 10; pointer-events: none; max-width: 260px;
+    background: var(--ink); color: var(--bg); padding: 10px 12px; font-size: 12px; line-height: 1.45;
+    box-shadow: 6px 6px 0 var(--gold); opacity: 0; transition: opacity .12s;
+  }
+  .tip.show { opacity: 1; }
+  .tip b { display: block; font: 400 16px/1.1 var(--display); text-transform: uppercase; margin-bottom: 2px; }
+
+  /* ---------- Lege staat ---------- */
+  .empty {
+    margin-top: 44px; border: 2px dashed var(--line); padding: 36px 28px; max-width: 760px;
+  }
+  .empty h2 { font: 400 40px/1 var(--display); text-transform: uppercase; margin: 0 0 12px; color: var(--gold); }
+  .empty p, .empty li { color: var(--muted); line-height: 1.6; }
+  .empty code { color: var(--ink); background: var(--panel-2); padding: 1px 6px; }
+
+  footer {
+    margin-top: 64px; padding-top: 18px; border-top: 2px solid var(--ink);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+
+  @media (max-width: 1200px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px)  { .vinyl { width: 300px; right: -150px; opacity: .45; } }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px 48px; }
+    .groups { grid-template-columns: 1fr; }
+    .vinyl { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="vinyl" aria-hidden="true"></div>
+    <div class="label-tag"><span class="dot"></span>UEFA Nations League <span id="season"></span></div>
+    <h1>De <span class="hl">vorm</span>lijst</h1>
+    <p class="sub">
+      Per groep een ranglijst op basis van de <b>laatste 5 gespeelde interlands</b> van elk land, in alle competities.
+      <b>Winst = 3</b>, <b>gelijk = 1</b>, <b>verlies = 0</b>. Bij gelijke punten gaat het doelsaldo voor, daarna het aantal gemaakte doelpunten.
+    </p>
+    <div class="meta">
+      <span>Bijgewerkt: <b id="updated">&ndash;</b></span>
+      <span>Bron: <b>API-Football</b></span>
+      <span>Ververst dagelijks om <b>03:00</b></span>
+    </div>
+  </header>
+
+  <div class="legend" aria-label="Legenda">
+    <span class="item"><span class="pill W">W</span>Winst</span>
+    <span class="item"><span class="pill D">G</span>Gelijk</span>
+    <span class="item"><span class="pill L">V</span>Verlies</span>
+    <span class="item">Vorm van oud (links) naar nieuw (rechts) &middot; beweeg over een bolletje voor de uitslag</span>
+  </div>
+
+  <main id="app"></main>
+
+  <footer>
+    <span>Vormlijst &middot; UEFA Nations League</span>
+    <span>Lay-out ge&iuml;nspireerd op Top Notch</span>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="data/form.js"></script>
+<script>
+(function () {
+  const LEAGUE_ORDER = ['A', 'B', 'C', 'D'];
+  const RESULT_LABEL = { W: 'W', D: 'G', L: 'V' };
+  const RESULT_TEXT = { W: 'Winst', D: 'Gelijkspel', L: 'Verlies' };
+  const app = document.getElementById('app');
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmtDate = (iso, opts) => new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', ...opts }).format(new Date(iso));
+
+  async function loadData() {
+    if (window.FORM_DATA) return window.FORM_DATA;
+    try {
+      const res = await fetch('data/form.json', { cache: 'no-cache' });
+      if (res.ok) return await res.json();
+    } catch (e) { /* valt terug op lege staat */ }
+    return null;
+  }
+
+  function renderEmpty() {
+    app.innerHTML = `
+      <section class="empty">
+        <h2>Nog geen data</h2>
+        <p>Het dashboard heeft nog geen statistieken. Zo zet je het aan:</p>
+        <ol>
+          <li>Maak een gratis account aan op <code>dashboard.api-football.com</code> en kopieer je API-key.</li>
+          <li>Voeg in GitHub onder <em>Settings &rarr; Secrets and variables &rarr; Actions</em> het secret <code>API_FOOTBALL_KEY</code> toe.</li>
+          <li>Start de workflow <em>Vormlijst verversen</em> handmatig via het tabblad <em>Actions</em>.</li>
+        </ol>
+        <p>Daarna ververst de pagina zichzelf elke nacht om 03:00 als er de dag ervoor is gespeeld.</p>
+      </section>`;
+  }
+
+  function pill(m) {
+    if (!m) return '<span class="pill none" aria-label="Geen wedstrijd">&middot;</span>';
+    const venue = m.home ? 'thuis' : 'uit';
+    const info = `${RESULT_TEXT[m.result]} ${m.gf}-${m.ga} ${venue} tegen ${m.opponent}, ${m.competition}, ${fmtDate(m.date, { day: 'numeric', month: 'short', year: 'numeric' })}`;
+    return `<span class="pill ${m.result}" tabindex="0" aria-label="${esc(info)}"
+      data-title="${esc(RESULT_TEXT[m.result] + ' ' + m.gf + '-' + m.ga)}"
+      data-body="${esc((m.home ? 'vs ' : '@ ') + m.opponent)}<br>${esc(m.competition)}<br>${esc(fmtDate(m.date, { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }))}">${RESULT_LABEL[m.result]}</span>`;
+  }
+
+  function groupCard(key, teams, formLength) {
+    const rows = teams.map((t, i) => {
+      // Oud -> nieuw van links naar rechts; ontbrekende wedstrijden links aanvullen.
+      const chron = [...t.matches].reverse();
+      const pad = Array(Math.max(0, formLength - chron.length)).fill(null);
+      const gd = (t.goalDiff > 0 ? '+' : '') + t.goalDiff;
+      return `<tr class="${i === 0 ? 'top' : ''}">
+        <td class="pos">${i + 1}</td>
+        <td><div class="team">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : ''}<span title="${esc(t.name)}">${esc(t.name)}</span></div></td>
+        <td><div class="form">${[...pad, ...chron].map(pill).join('')}</div></td>
+        <td class="num gd" title="Doelpunten ${t.goalsFor}-${t.goalsAgainst}">${gd}</td>
+        <td class="num pts">${t.points}</td>
+      </tr>`;
+    }).join('');
+    return `<article class="group">
+      <div class="group-head"><h3>Groep ${esc(key.slice(1))}</h3><span class="code">${esc(key)}</span></div>
+      <table>
+        <colgroup><col class="c-pos"><col><col class="c-form"><col class="c-gd"><col class="c-pts"></colgroup>
+        <thead><tr><th>#</th><th>Land</th><th>Vorm</th><th class="num">DS</th><th class="num">Ptn</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </article>`;
+  }
+
+  function render(data) {
+    document.getElementById('season').textContent = data.season || '';
+    document.getElementById('updated').textContent =
+      fmtDate(data.updatedAt, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    app.innerHTML = LEAGUE_ORDER.filter((l) => data.leagues[l]).map((l) => {
+      const groups = Object.entries(data.leagues[l]).sort(([a], [b]) => a.localeCompare(b));
+      const teamCount = groups.reduce((s, [, t]) => s + t.length, 0);
+      return `<section class="league" aria-labelledby="league-${l}">
+        <div class="league-head">
+          <h2 id="league-${l}">League<span class="letter">${l}</span></h2>
+          <span class="side">${groups.length} groepen &middot; ${teamCount} landen</span>
+        </div>
+        <div class="groups">${groups.map(([k, t]) => groupCard(k, t, data.formLength || 5)).join('')}</div>
+      </section>`;
+    }).join('');
+  }
+
+  // Tooltip voor de vorm-bolletjes
+  const tip = document.getElementById('tip');
+  function showTip(el) {
+    if (!el.dataset.title) return;
+    tip.innerHTML = `<b>${el.dataset.title}</b>${el.dataset.body}`;
+    const r = el.getBoundingClientRect();
+    tip.classList.add('show');
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+    let y = r.top - h - 12;
+    if (y < 8) y = r.bottom + 12;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  const hideTip = () => tip.classList.remove('show');
+  app.addEventListener('mouseover', (e) => { const p = e.target.closest('.pill'); p ? showTip(p) : hideTip(); });
+  app.addEventListener('focusin', (e) => { const p = e.target.closest('.pill'); if (p) showTip(p); });
+  app.addEventListener('focusout', hideTip);
+  app.addEventListener('mouseleave', hideTip);
+  window.addEventListener('scroll', hideTip, { passive: true });
+
+  loadData().then((data) => (data && data.leagues ? render(data) : renderEmpty()));
+})();
+</script>
+</body>
+</html>
