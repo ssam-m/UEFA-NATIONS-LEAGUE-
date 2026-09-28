@@ -6,195 +6,244 @@
 <title>Nations League Vormlijst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --panel: #121212;
-    --panel-2: #1a1a1a;
-    --line: #2a2a2a;
-    --ink: #f4f1ea;
-    --muted: #8d8a84;
-    --gold: #ffd21f;
-    --win: #ffd21f;
-    --draw: #bdb8ae;
-    --loss: #e5202e;
-    --display: 'Anton', 'Impact', sans-serif;
-    --body: 'Space Grotesk', system-ui, sans-serif;
+    --red: #ff0000;
+    --red-soft: #e8322b;
+    --black: #000;
+    --white: #fff;
+    --grey: #6b6b6b;
+    --line: #000;
+    --line-soft: #e4e4e4;
+    --font: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); }
-  body {
-    background-image:
-      radial-gradient(circle at 85% -10%, rgba(255, 210, 31, .08), transparent 45%),
-      repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);
-    min-height: 100vh;
-  }
-  .wrap { max-width: 1480px; margin: 0 auto; padding: 0 24px 64px; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; background: var(--white); color: var(--black); font-family: var(--font); }
+  a { color: inherit; }
 
-  /* ---------- Header ---------- */
-  header {
-    position: relative; overflow: hidden;
-    border-bottom: 4px solid var(--ink);
-    padding: 40px 0 28px;
-    margin-bottom: 12px;
-  }
-  .label-tag {
-    display: inline-flex; align-items: center; gap: 10px;
-    font: 700 12px/1 var(--body); letter-spacing: .32em; text-transform: uppercase;
-    border: 2px solid var(--ink); padding: 8px 12px;
-  }
-  .label-tag .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
-  h1 {
-    font: 400 clamp(52px, 10vw, 148px)/.86 var(--display);
-    text-transform: uppercase; letter-spacing: -.01em;
-    margin: 22px 0 0; max-width: 11ch;
-  }
-  h1 .hl { color: var(--gold); }
-  .sub { margin: 18px 0 0; max-width: 62ch; color: var(--muted); font-size: 15px; line-height: 1.55; }
-  .sub b { color: var(--ink); font-weight: 500; }
-  .meta {
-    display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px;
-    font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
-  }
-  .meta span b { color: var(--ink); font-weight: 700; }
+  /* Brede, extra vette koppen zoals op top-notch.nl */
+  .wide { font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -.01em; }
 
-  /* Vinylplaat als decor */
-  .vinyl {
-    position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
-    width: 460px; aspect-ratio: 1; border-radius: 50%;
-    background:
-      radial-gradient(circle, var(--bg) 0 3.2%, var(--gold) 3.3% 16%, #111 16.2% 17%, transparent 17.2%),
-      repeating-radial-gradient(circle, #151515 0 2px, #0d0d0d 2px 4px);
-    box-shadow: 0 0 0 2px #1f1f1f inset;
-    animation: spin 14s linear infinite;
-    opacity: .9; pointer-events: none;
+  .wrap { padding: 0 64px; }
+
+  /* ---------- Navigatie ---------- */
+  .nav {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 18px 64px;
   }
-  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .vinyl { animation: none; } }
+  .nav-links { display: flex; gap: 56px; }
+  .nav a {
+    font: 800 14px/1 var(--font); font-stretch: 115%; text-transform: uppercase;
+    text-decoration: none; text-underline-offset: 4px;
+  }
+  .nav a:hover, .nav a.active { text-decoration: underline; text-decoration-thickness: 2px; }
+  .brand {
+    background: var(--red); color: var(--white); padding: 10px 18px;
+    font: 900 italic 19px/1 var(--font); font-stretch: 110%; text-decoration: none !important; letter-spacing: -.02em;
+  }
+  .nav .ext { justify-self: end; display: inline-flex; align-items: center; gap: 8px; text-decoration: underline; text-decoration-thickness: 2px; }
+  .nav .ext svg { width: 15px; height: 15px; }
+
+  /* ---------- Hero (zwart, zoals de homepage) ---------- */
+  .hero { background: var(--black); color: var(--white); position: relative; overflow: hidden; }
+  .hero .nav { color: var(--white); }
+  .hero::before {
+    /* subtiele korrel, zoals de posterfoto's op de site */
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero-body { position: relative; padding: 72px 64px 80px 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: end; }
+  .hero h1 {
+    color: var(--red-soft); margin: 0; font-size: clamp(56px, 8.4vw, 132px); line-height: .9;
+  }
+  .hero .btn {
+    display: inline-flex; align-items: center; gap: 14px; margin: 56px 0 0 64px;
+    border: 1px solid var(--white); padding: 14px 20px;
+    font: 800 12px/1 var(--font); font-stretch: 115%; text-transform: uppercase; text-decoration: none;
+  }
+  .hero .btn:hover { background: var(--white); color: var(--black); }
+  .hero .btn svg { width: 16px; height: 16px; }
+
+  /* Info-rij: CATEGORY / ARTIST / YEAR / PARTNER */
+  .facts { display: grid; grid-template-columns: repeat(4, auto); gap: 8px 40px; justify-content: start; margin-bottom: 36px; }
+  .facts dt { font: 900 15px/1.2 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .facts dd { margin: 6px 0 0; font: 700 16px/1.35 var(--font); }
+  .facts dd a { text-underline-offset: 3px; }
+  .intro { font: 700 clamp(17px, 1.6vw, 22px)/1.4 var(--font); margin: 0; max-width: 34ch; }
 
   /* ---------- Legenda ---------- */
-  .legend { display: flex; flex-wrap: wrap; gap: 14px 24px; padding: 18px 0 8px; font-size: 13px; color: var(--muted); }
+  .legend {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 32px;
+    padding: 22px 64px; border-bottom: 2px solid var(--black);
+    font: 700 14px/1 var(--font);
+  }
   .legend .item { display: inline-flex; align-items: center; gap: 8px; }
+  .legend .note { color: var(--grey); font-weight: 500; }
 
   /* ---------- League-rijen ---------- */
-  .league { margin-top: 44px; }
-  .league-head {
-    display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
-    border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 18px;
-  }
-  .league-head h2 {
-    font: 400 clamp(38px, 5.5vw, 72px)/.9 var(--display); text-transform: uppercase; margin: 0;
-  }
-  .league-head h2 .letter {
-    display: inline-block; background: var(--ink); color: var(--bg); padding: 0 .16em; margin-left: .12em;
-  }
-  .league-head .side { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
-  .groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .league { padding: 72px 0 8px; }
+  .league-head h2 { scroll-margin-top: 32px; }
+  .league-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .league-head h2 { margin: 0; color: var(--red); font-size: clamp(48px, 7vw, 108px); line-height: .88; }
+  .league-head .side { font: 900 14px/1.3 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
 
   /* ---------- Groepskaart ---------- */
-  .group {
-    background: var(--panel); border: 1px solid var(--line);
-    display: flex; flex-direction: column; min-width: 0;
+  .group { min-width: 0; border-top: 6px solid var(--black); }
+  .group-head { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0 10px; }
+  .group-head h3 { margin: 0; font-size: 24px; line-height: 1; }
+  .group-head .code {
+    background: var(--red); color: var(--white); padding: 4px 8px;
+    font: 900 12px/1 var(--font); font-stretch: 125%;
   }
-  .group-head {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 14px; background: var(--ink); color: var(--bg);
-  }
-  .group-head h3 { margin: 0; font: 400 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
-  .group-head .code { font: 700 11px/1 var(--body); letter-spacing: .2em; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
-  col.c-pos { width: 34px; } col.c-form { width: 106px; } col.c-gd { width: 32px; } col.c-pts { width: 44px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c-pos { width: 30px; } col.c-form { width: 106px; } col.c-gd { width: 34px; } col.c-pts { width: 40px; }
   th {
-    font: 700 10px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
-    text-align: left; padding: 10px 8px 8px; border-bottom: 1px solid var(--line);
+    font: 900 11px/1 var(--font); font-stretch: 125%; text-transform: uppercase;
+    text-align: left; padding: 8px 4px; border-bottom: 2px solid var(--black);
   }
   th.num, td.num { text-align: right; }
-  td { padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  tr:last-child td { border-bottom: 0; }
-  td.pos { width: 34px; font: 400 22px/1 var(--display); color: var(--muted); padding-left: 12px; }
-  tr.top td.pos { color: var(--gold); }
+  td { padding: 11px 4px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+  td.pos { font: 900 18px/1 var(--font); font-stretch: 125%; padding-left: 0; }
+  tr.top td.pos, tr.top td.pts { color: var(--red); }
   .team { display: flex; align-items: center; gap: 6px; min-width: 0; }
   .team img { width: 18px; height: 18px; object-fit: contain; flex: none; }
-  .team span { font-weight: 500; line-height: 1.2; font-size: 13px; overflow-wrap: break-word; }
-  td.pts { font: 400 22px/1 var(--display); padding-right: 12px; }
-  tr.top td.pts { color: var(--gold); }
-  td.gd { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+  .team span { font: 700 14px/1.2 var(--font); overflow-wrap: break-word; min-width: 0; }
+  td.pts { font: 900 22px/1 var(--font); font-stretch: 125%; padding-right: 0; }
+  td.gd { color: var(--grey); font: 600 12px/1 var(--font); font-variant-numeric: tabular-nums; }
 
   .form { display: flex; gap: 2px; }
   .pill {
-    width: 17px; height: 17px; display: inline-grid; place-items: center;
-    font: 700 10px/1 var(--body); border-radius: 50%; cursor: default; position: relative; flex: none;
+    width: 18px; height: 18px; display: inline-grid; place-items: center; flex: none;
+    font: 900 10px/1 var(--font); cursor: default;
   }
-  .pill.W { background: var(--win); color: #111; }
-  .pill.D { background: transparent; color: var(--draw); box-shadow: inset 0 0 0 2px var(--draw); }
-  .pill.L { background: var(--loss); color: #fff; }
-  .pill.none { background: var(--panel-2); color: var(--muted); }
-  .pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .pill.W { background: var(--black); color: var(--white); }
+  .pill.D { background: var(--white); color: var(--black); box-shadow: inset 0 0 0 2px var(--black); }
+  .pill.L { background: var(--red); color: var(--white); }
+  .pill.none { background: var(--line-soft); color: var(--grey); }
+  .pill:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
   /* Tooltip */
   .tip {
     position: fixed; z-index: 10; pointer-events: none; max-width: 260px;
-    background: var(--ink); color: var(--bg); padding: 10px 12px; font-size: 12px; line-height: 1.45;
-    box-shadow: 6px 6px 0 var(--gold); opacity: 0; transition: opacity .12s;
+    background: var(--black); color: var(--white); padding: 12px 14px; font: 500 12px/1.5 var(--font);
+    opacity: 0; transition: opacity .12s;
   }
   .tip.show { opacity: 1; }
-  .tip b { display: block; font: 400 16px/1.1 var(--display); text-transform: uppercase; margin-bottom: 2px; }
+  .tip b { display: block; font: 900 15px/1.1 var(--font); font-stretch: 125%; text-transform: uppercase; color: var(--red-soft); margin-bottom: 4px; }
 
   /* ---------- Lege staat ---------- */
-  .empty {
-    margin-top: 44px; border: 2px dashed var(--line); padding: 36px 28px; max-width: 760px;
-  }
-  .empty h2 { font: 400 40px/1 var(--display); text-transform: uppercase; margin: 0 0 12px; color: var(--gold); }
-  .empty p, .empty li { color: var(--muted); line-height: 1.6; }
-  .empty code { color: var(--ink); background: var(--panel-2); padding: 1px 6px; }
+  .empty { padding: 72px 0; max-width: 760px; }
+  .empty h2 { color: var(--red); font-size: clamp(40px, 5vw, 72px); line-height: .9; margin: 0 0 24px; }
+  .empty p, .empty li { font: 500 17px/1.6 var(--font); }
+  .empty code { background: #f1f1f1; padding: 1px 6px; font-weight: 700; }
 
-  footer {
-    margin-top: 64px; padding-top: 18px; border-top: 2px solid var(--ink);
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-    font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  /* ---------- Footer (rode band + slogan) ---------- */
+  .band {
+    margin-top: 96px; background: var(--red); color: var(--black); text-align: center; padding: 56px 24px 72px;
   }
+  .band .mark {
+    display: inline-grid; place-items: center; width: 48px; height: 48px; background: var(--black); color: var(--red);
+    font: 900 italic 18px/1 var(--font); margin-bottom: 26px;
+  }
+  .band p { margin: 0; font: 900 15px/1.3 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .foot { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; padding: 96px 64px 88px; }
+  .foot h2 { margin: 0; color: var(--red); font-size: clamp(48px, 5.4vw, 80px); line-height: .9; }
+  .foot h4 { margin: 28px 0 10px; font: 900 15px/1 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .foot h4:first-child { margin-top: 0; }
+  .foot ul { list-style: none; margin: 0; padding: 0; }
+  .foot li { margin: 8px 0; font: 500 17px/1.3 var(--font); }
+  .foot a { text-underline-offset: 3px; }
 
-  @media (max-width: 1200px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 900px)  { .vinyl { width: 300px; right: -150px; opacity: .45; } }
-  @media (max-width: 640px) {
-    .wrap { padding: 0 16px 48px; }
+  @media (max-width: 1200px) {
+    .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+    .hero-body { grid-template-columns: 1fr; }
+    .hero-body > div:last-child { padding-left: 64px; }
+  }
+  @media (max-width: 760px) {
+    .wrap, .nav, .legend, .foot { padding-left: 16px; padding-right: 16px; }
+    .nav { grid-template-columns: auto 1fr; gap: 14px; }
+    .nav-links { display: none; }
+    .nav .ext { font-size: 12px; }
+    .facts { grid-template-columns: repeat(2, auto); gap: 18px 28px; }
     .groups { grid-template-columns: 1fr; }
-    .vinyl { display: none; }
+    .foot { grid-template-columns: 1fr; padding-top: 64px; }
+    .hero-body { padding: 40px 16px 56px 0; }
+    .hero .btn { margin-left: 16px; }
+    .hero-body > div:last-child { padding-left: 16px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="vinyl" aria-hidden="true"></div>
-    <div class="label-tag"><span class="dot"></span>UEFA Nations League <span id="season"></span></div>
-    <h1>De <span class="hl">vorm</span>lijst</h1>
-    <p class="sub">
-      Per groep een ranglijst op basis van de <b>laatste 5 gespeelde interlands</b> van elk land, in alle competities.
-      <b>Winst = 3</b>, <b>gelijk = 1</b>, <b>verlies = 0</b>. Bij gelijke punten gaat het doelsaldo voor, daarna het aantal gemaakte doelpunten.
-    </p>
-    <div class="meta">
-      <span>Bijgewerkt: <b id="updated">&ndash;</b></span>
-      <span>Bron: <b>API-Football</b></span>
-      <span>Ververst dagelijks om <b>03:00</b></span>
+<section class="hero">
+  <nav class="nav" aria-label="Hoofdmenu">
+    <div class="nav-links">
+      <a href="#league-A">League A</a>
+      <a href="#league-B">League B</a>
+      <a href="#league-C">League C</a>
+      <a href="#league-D">League D</a>
     </div>
-  </header>
+    <a class="brand" href="#">Vormlijst</a>
+    <a class="ext" href="https://www.uefa.com/uefanationsleague/" target="_blank" rel="noopener">
+      Nations League
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8"/></svg>
+    </a>
+  </nav>
 
-  <div class="legend" aria-label="Legenda">
-    <span class="item"><span class="pill W">W</span>Winst</span>
-    <span class="item"><span class="pill D">G</span>Gelijk</span>
-    <span class="item"><span class="pill L">V</span>Verlies</span>
-    <span class="item">Vorm van oud (links) naar nieuw (rechts) &middot; beweeg over een bolletje voor de uitslag</span>
+  <div class="wrap hero-body">
+    <div>
+      <h1 class="wide">Wie is er in vorm?</h1>
+      <a class="btn" href="#league-A">
+        Bekijk de ranglijsten
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+      </a>
+    </div>
+    <div>
+      <dl class="facts">
+        <div><dt>Seizoen</dt><dd id="season">2026-27</dd></div>
+        <div><dt>Basis</dt><dd>Laatste 5 duels</dd></div>
+        <div><dt>Bijgewerkt</dt><dd id="updated">&ndash;</dd></div>
+        <div><dt>Bron</dt><dd><a href="https://www.api-football.com/" target="_blank" rel="noopener">API-Football</a></dd></div>
+      </dl>
+      <p class="intro">
+        Per groep een ranglijst op basis van de laatste 5 interlands van elk land, in alle competities.
+        Winst is 3 punten, gelijk 1, verlies 0. Bij gelijke punten telt het doelsaldo, daarna de gemaakte doelpunten.
+      </p>
+    </div>
   </div>
+</section>
 
-  <main id="app"></main>
-
-  <footer>
-    <span>Vormlijst &middot; UEFA Nations League</span>
-    <span>Lay-out ge&iuml;nspireerd op Top Notch</span>
-  </footer>
+<div class="legend" aria-label="Legenda">
+  <span class="item"><span class="pill W">W</span>Winst</span>
+  <span class="item"><span class="pill D">G</span>Gelijk</span>
+  <span class="item"><span class="pill L">V</span>Verlies</span>
+  <span class="item note">Vorm van oud (links) naar nieuw (rechts). Beweeg over een blokje voor de uitslag.</span>
 </div>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="band">
+    <span class="mark" aria-hidden="true">NL</span>
+    <p>Ververst elke nacht om 03:00</p>
+  </div>
+  <div class="foot">
+    <h2 class="wide">Blijf in<br>vorm toch</h2>
+    <div>
+      <h4>Ranglijsten</h4>
+      <ul>
+        <li><a href="#league-A">League A</a></li>
+        <li><a href="#league-B">League B</a></li>
+        <li><a href="#league-C">League C</a></li>
+        <li><a href="#league-D">League D</a></li>
+      </ul>
+      <h4>Data</h4>
+      <ul><li><a href="https://www.api-football.com/" target="_blank" rel="noopener">API-Football</a></li></ul>
+    </div>
+  </div>
+</footer>
 
 <div class="tip" id="tip" role="tooltip"></div>
 
@@ -224,7 +273,7 @@
   function renderEmpty() {
     app.innerHTML = `
       <section class="empty">
-        <h2>Nog geen data</h2>
+        <h2 class="wide">Nog geen data</h2>
         <p>Het dashboard heeft nog geen statistieken. Zo zet je het aan:</p>
         <ol>
           <li>Maak een gratis account aan op <code>dashboard.api-football.com</code> en kopieer je API-key.</li>
@@ -259,7 +308,7 @@
       </tr>`;
     }).join('');
     return `<article class="group">
-      <div class="group-head"><h3>Groep ${esc(key.slice(1))}</h3><span class="code">${esc(key)}</span></div>
+      <div class="group-head"><h3 class="wide">Groep ${esc(key.slice(1))}</h3><span class="code">${esc(key)}</span></div>
       <table>
         <colgroup><col class="c-pos"><col><col class="c-form"><col class="c-gd"><col class="c-pts"></colgroup>
         <thead><tr><th>#</th><th>Land</th><th>Vorm</th><th class="num">DS</th><th class="num">Ptn</th></tr></thead>
@@ -269,16 +318,16 @@
   }
 
   function render(data) {
-    document.getElementById('season').textContent = data.season || '';
+    if (data.season) document.getElementById('season').textContent = data.season;
     document.getElementById('updated').textContent =
-      fmtDate(data.updatedAt, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      fmtDate(data.updatedAt, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
     app.innerHTML = LEAGUE_ORDER.filter((l) => data.leagues[l]).map((l) => {
       const groups = Object.entries(data.leagues[l]).sort(([a], [b]) => a.localeCompare(b));
       const teamCount = groups.reduce((s, [, t]) => s + t.length, 0);
-      return `<section class="league" aria-labelledby="league-${l}">
+      return `<section class="league" id="league-${l}-sec" aria-labelledby="league-${l}">
         <div class="league-head">
-          <h2 id="league-${l}">League<span class="letter">${l}</span></h2>
+          <h2 class="wide" id="league-${l}">League ${l}</h2>
           <span class="side">${groups.length} groepen &middot; ${teamCount} landen</span>
         </div>
         <div class="groups">${groups.map(([k, t]) => groupCard(k, t, data.formLength || 5)).join('')}</div>

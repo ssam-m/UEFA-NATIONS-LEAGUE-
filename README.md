@@ -8,7 +8,7 @@ Dashboard dat voor elke groep van de UEFA Nations League een ranglijst toont op 
 - Bij gelijke punten: doelsaldo, daarna gemaakte doelpunten
 - Een strafschoppenserie telt als gelijkspel (de uitslag na 90/120 minuten telt)
 - 4 rijen: League A, B, C (elk 4 groepen) en League D (in 2026-27: 2 groepen van 3 landen)
-- Lay-out geïnspireerd op Top Notch: zwart-wit, grote koppen, vinyl en goud als accent
+- Lay-out geïnspireerd op top-notch.nl: rood, zwart en wit, brede extra vette koppen (Archivo Expanded), rode footerband
 
 ## Hoe het werkt
 
