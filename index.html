@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nations League Vormlijst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #ff0000;
+    --red-soft: #e8322b;
+    --black: #000;
+    --white: #fff;
+    --grey: #6b6b6b;
+    --line: #000;
+    --line-soft: #e4e4e4;
+    --font: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; background: var(--white); color: var(--black); font-family: var(--font); }
+  a { color: inherit; }
+
+  /* Brede, extra vette koppen zoals op top-notch.nl */
+  .wide { font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -.01em; }
+
+  .wrap { padding: 0 64px; }
+
+  /* ---------- Navigatie ---------- */
+  .nav {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 18px 64px;
+  }
+  .nav-links { display: flex; gap: 56px; }
+  .nav a {
+    font: 800 14px/1 var(--font); font-stretch: 115%; text-transform: uppercase;
+    text-decoration: none; text-underline-offset: 4px;
+  }
+  .nav a:hover, .nav a.active { text-decoration: underline; text-decoration-thickness: 2px; }
+  .brand {
+    background: var(--red); color: var(--white); padding: 10px 18px;
+    font: 900 italic 19px/1 var(--font); font-stretch: 110%; text-decoration: none !important; letter-spacing: -.02em;
+  }
+  .nav .ext { justify-self: end; display: inline-flex; align-items: center; gap: 8px; text-decoration: underline; text-decoration-thickness: 2px; }
+  .nav .ext svg { width: 15px; height: 15px; }
+
+  /* ---------- Hero (zwart, zoals de homepage) ---------- */
+  .hero { background: var(--black); color: var(--white); position: relative; overflow: hidden; }
+  .hero .nav { color: var(--white); }
+  .hero::before {
+    /* subtiele korrel, zoals de posterfoto's op de site */
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero-body { position: relative; padding: 72px 64px 80px 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: end; }
+  .hero h1 {
+    color: var(--red-soft); margin: 0; font-size: clamp(56px, 8.4vw, 132px); line-height: .9;
+  }
+  .hero .btn {
+    display: inline-flex; align-items: center; gap: 14px; margin: 56px 0 0 64px;
+    border: 1px solid var(--white); padding: 14px 20px;
+    font: 800 12px/1 var(--font); font-stretch: 115%; text-transform: uppercase; text-decoration: none;
+  }
+  .hero .btn:hover { background: var(--white); color: var(--black); }
+  .hero .btn svg { width: 16px; height: 16px; }
+
+  /* Info-rij: CATEGORY / ARTIST / YEAR / PARTNER */
+  .facts { display: grid; grid-template-columns: repeat(4, auto); gap: 8px 40px; justify-content: start; margin-bottom: 36px; }
+  .facts dt { font: 900 15px/1.2 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .facts dd { margin: 6px 0 0; font: 700 16px/1.35 var(--font); }
+  .facts dd a { text-underline-offset: 3px; }
+  .intro { font: 700 clamp(17px, 1.6vw, 22px)/1.4 var(--font); margin: 0; max-width: 34ch; }
+
+  /* ---------- Legenda ---------- */
+  .legend {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 32px;
+    padding: 22px 64px; border-bottom: 2px solid var(--black);
+    font: 700 14px/1 var(--font);
+  }
+  .legend .item { display: inline-flex; align-items: center; gap: 8px; }
+  .legend .note { color: var(--grey); font-weight: 500; }
+
+  /* ---------- League-rijen ---------- */
+  .league { padding: 72px 0 8px; }
+  .league-head h2 { scroll-margin-top: 32px; }
+  .league-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .league-head h2 { margin: 0; color: var(--red); font-size: clamp(48px, 7vw, 108px); line-height: .88; }
+  .league-head .side { font: 900 14px/1.3 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+
+  /* ---------- Groepskaart ---------- */
+  .group { min-width: 0; border-top: 6px solid var(--black); }
+  .group-head { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0 10px; }
+  .group-head h3 { margin: 0; font-size: 24px; line-height: 1; }
+  .group-head .code {
+    background: var(--red); color: var(--white); padding: 4px 8px;
+    font: 900 12px/1 var(--font); font-stretch: 125%;
+  }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c-pos { width: 30px; } col.c-form { width: 106px; } col.c-gd { width: 34px; } col.c-pts { width: 40px; }
+  th {
+    font: 900 11px/1 var(--font); font-stretch: 125%; text-transform: uppercase;
+    text-align: left; padding: 8px 4px; border-bottom: 2px solid var(--black);
+  }
+  th.num, td.num { text-align: right; }
+  td { padding: 11px 4px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+  td.pos { font: 900 18px/1 var(--font); font-stretch: 125%; padding-left: 0; }
+  tr.top td.pos, tr.top td.pts { color: var(--red); }
+  .team { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .team img { width: 18px; height: 18px; object-fit: contain; flex: none; }
+  .team span { font: 700 14px/1.2 var(--font); overflow-wrap: break-word; min-width: 0; }
+  td.pts { font: 900 22px/1 var(--font); font-stretch: 125%; padding-right: 0; }
+  td.gd { color: var(--grey); font: 600 12px/1 var(--font); font-variant-numeric: tabular-nums; }
+
+  .form { display: flex; gap: 2px; }
+  .pill {
+    width: 18px; height: 18px; display: inline-grid; place-items: center; flex: none;
+    font: 900 10px/1 var(--font); cursor: default;
+  }
+  .pill.W { background: var(--black); color: var(--white); }
+  .pill.D { background: var(--white); color: var(--black); box-shadow: inset 0 0 0 2px var(--black); }
+  .pill.L { background: var(--red); color: var(--white); }
+  .pill.none { background: var(--line-soft); color: var(--grey); }
+  .pill:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+  /* Tooltip */
+  .tip {
+    position: fixed; z-index: 10; pointer-events: none; max-width: 260px;
+    background: var(--black); color: var(--white); padding: 12px 14px; font: 500 12px/1.5 var(--font);
+    opacity: 0; transition: opacity .12s;
+  }
+  .tip.show { opacity: 1; }
+  .tip b { display: block; font: 900 15px/1.1 var(--font); font-stretch: 125%; text-transform: uppercase; color: var(--red-soft); margin-bottom: 4px; }
+
+  /* ---------- Lege staat ---------- */
+  .empty { padding: 72px 0; max-width: 760px; }
+  .empty h2 { color: var(--red); font-size: clamp(40px, 5vw, 72px); line-height: .9; margin: 0 0 24px; }
+  .empty p, .empty li { font: 500 17px/1.6 var(--font); }
+  .empty code { background: #f1f1f1; padding: 1px 6px; font-weight: 700; }
+
+  /* ---------- Footer (rode band + slogan) ---------- */
+  .band {
+    margin-top: 96px; background: var(--red); color: var(--black); text-align: center; padding: 56px 24px 72px;
+  }
+  .band .mark {
+    display: inline-grid; place-items: center; width: 48px; height: 48px; background: var(--black); color: var(--red);
+    font: 900 italic 18px/1 var(--font); margin-bottom: 26px;
+  }
+  .band p { margin: 0; font: 900 15px/1.3 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .foot { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; padding: 96px 64px 88px; }
+  .foot h2 { margin: 0; color: var(--red); font-size: clamp(48px, 5.4vw, 80px); line-height: .9; }
+  .foot h4 { margin: 28px 0 10px; font: 900 15px/1 var(--font); font-stretch: 125%; text-transform: uppercase; }
+  .foot h4:first-child { margin-top: 0; }
+  .foot ul { list-style: none; margin: 0; padding: 0; }
+  .foot li { margin: 8px 0; font: 500 17px/1.3 var(--font); }
+  .foot a { text-underline-offset: 3px; }
+
+  @media (max-width: 1200px) {
+    .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+    .hero-body { grid-template-columns: 1fr; }
+    .hero-body > div:last-child { padding-left: 64px; }
+  }
+  @media (max-width: 760px) {
+    .wrap, .nav, .legend, .foot { padding-left: 16px; padding-right: 16px; }
+    .nav { grid-template-columns: auto 1fr; gap: 14px; }
+    .nav-links { display: none; }
+    .nav .ext { font-size: 12px; }
+    .facts { grid-template-columns: repeat(2, auto); gap: 18px 28px; }
+    .groups { grid-template-columns: 1fr; }
+    .foot { grid-template-columns: 1fr; padding-top: 64px; }
+    .hero-body { padding: 40px 16px 56px 0; }
+    .hero .btn { margin-left: 16px; }
+    .hero-body > div:last-child { padding-left: 16px; }
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <nav class="nav" aria-label="Hoofdmenu">
+    <div class="nav-links">
+      <a href="#league-A">League A</a>
+      <a href="#league-B">League B</a>
+      <a href="#league-C">League C</a>
+      <a href="#league-D">League D</a>
+    </div>
+    <a class="brand" href="#">Vormlijst</a>
+    <a class="ext" href="https://www.uefa.com/uefanationsleague/" target="_blank" rel="noopener">
+      Nations League
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8"/></svg>
+    </a>
+  </nav>
+
+  <div class="wrap hero-body">
+    <div>
+      <h1 class="wide">Wie is er in vorm?</h1>
+      <a class="btn" href="#league-A">
+        Bekijk de ranglijsten
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg>
+      </a>
+    </div>
+    <div>
+      <dl class="facts">
+        <div><dt>Seizoen</dt><dd id="season">2026-27</dd></div>
+        <div><dt>Basis</dt><dd>Laatste 5 duels</dd></div>
+        <div><dt>Bijgewerkt</dt><dd id="updated">&ndash;</dd></div>
+        <div><dt>Bron</dt><dd><a href="https://www.api-football.com/" target="_blank" rel="noopener">API-Football</a></dd></div>
+      </dl>
+      <p class="intro">
+        Per groep een ranglijst op basis van de laatste 5 interlands van elk land, in alle competities.
+        Winst is 3 punten, gelijk 1, verlies 0. Bij gelijke punten telt het doelsaldo, daarna de gemaakte doelpunten.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="legend" aria-label="Legenda">
+  <span class="item"><span class="pill W">W</span>Winst</span>
+  <span class="item"><span class="pill D">G</span>Gelijk</span>
+  <span class="item"><span class="pill L">V</span>Verlies</span>
+  <span class="item note">Vorm van oud (links) naar nieuw (rechts). Beweeg over een blokje voor de uitslag.</span>
+</div>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="band">
+    <span class="mark" aria-hidden="true">NL</span>
+    <p>Ververst elke nacht om 03:00</p>
+  </div>
+  <div class="foot">
+    <h2 class="wide">Blijf in<br>vorm toch</h2>
+    <div>
+      <h4>Ranglijsten</h4>
+      <ul>
+        <li><a href="#league-A">League A</a></li>
+        <li><a href="#league-B">League B</a></li>
+        <li><a href="#league-C">League C</a></li>
+        <li><a href="#league-D">League D</a></li>
+      </ul>
+      <h4>Data</h4>
+      <ul><li><a href="https://www.api-football.com/" target="_blank" rel="noopener">API-Football</a></li></ul>
+    </div>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="landen.js"></script>
+<script src="data/form.js"></script>
+<script>
+(function () {
+  const LEAGUE_ORDER = ['A', 'B', 'C', 'D'];
+  const RESULT_LABEL = { W: 'W', D: 'G', L: 'V' };
+  const RESULT_TEXT = { W: 'Winst', D: 'Gelijkspel', L: 'Verlies' };
+  const app = document.getElementById('app');
+  const land = (n) => (window.LANDEN_NL || {})[n] || n;
+  const comp = (c) => (window.COMPETITIES_NL || {})[c] || c;
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmtDate = (iso, opts) => new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', ...opts }).format(new Date(iso));
+
+  async function loadData() {
+    if (window.FORM_DATA) return window.FORM_DATA;
+    try {
+      const res = await fetch('data/form.json', { cache: 'no-cache' });
+      if (res.ok) return await res.json();
+    } catch (e) { /* valt terug op lege staat */ }
+    return null;
+  }
+
+  function renderEmpty() {
+    app.innerHTML = `
+      <section class="empty">
+        <h2 class="wide">Nog geen data</h2>
+        <p>Het dashboard heeft nog geen statistieken. Zo zet je het aan:</p>
+        <ol>
+          <li>Maak een gratis account aan op <code>dashboard.api-football.com</code> en kopieer je API-key.</li>
+          <li>Voeg in GitHub onder <em>Settings &rarr; Secrets and variables &rarr; Actions</em> het secret <code>API_FOOTBALL_KEY</code> toe.</li>
+          <li>Start de workflow <em>Vormlijst verversen</em> handmatig via het tabblad <em>Actions</em>.</li>
+        </ol>
+        <p>Daarna ververst de pagina zichzelf elke nacht om 03:00 als er de dag ervoor is gespeeld.</p>
+      </section>`;
+  }
+
+  function pill(m) {
+    if (!m) return '<span class="pill none" aria-label="Geen wedstrijd">&middot;</span>';
+    const venue = m.home ? 'thuis' : 'uit';
+    const info = `${RESULT_TEXT[m.result]} ${m.gf}-${m.ga} ${venue} tegen ${land(m.opponent)}, ${comp(m.competition)}, ${fmtDate(m.date, { day: 'numeric', month: 'short', year: 'numeric' })}`;
+    return `<span class="pill ${m.result}" tabindex="0" aria-label="${esc(info)}"
+      data-title="${esc(RESULT_TEXT[m.result] + ' ' + m.gf + '-' + m.ga)}"
+      data-body="${esc((m.home ? 'thuis tegen ' : 'uit bij ') + land(m.opponent))}<br>${esc(comp(m.competition))}<br>${esc(fmtDate(m.date, { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }))}">${RESULT_LABEL[m.result]}</span>`;
+  }
+
+  function groupCard(key, teams, formLength) {
+    const rows = teams.map((t, i) => {
+      // Oud -> nieuw van links naar rechts; ontbrekende wedstrijden links aanvullen.
+      const chron = [...t.matches].reverse();
+      const pad = Array(Math.max(0, formLength - chron.length)).fill(null);
+      const gd = (t.goalDiff > 0 ? '+' : '') + t.goalDiff;
+      return `<tr class="${i === 0 ? 'top' : ''}">
+        <td class="pos">${i + 1}</td>
+        <td><div class="team">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : ''}<span title="${esc(land(t.name))}">${esc(land(t.name))}</span></div></td>
+        <td><div class="form">${[...pad, ...chron].map(pill).join('')}</div></td>
+        <td class="num gd" title="Doelpunten ${t.goalsFor}-${t.goalsAgainst}">${gd}</td>
+        <td class="num pts">${t.points}</td>
+      </tr>`;
+    }).join('');
+    return `<article class="group">
+      <div class="group-head"><h3 class="wide">Groep ${esc(key.slice(1))}</h3><span class="code">${esc(key)}</span></div>
+      <table>
+        <colgroup><col class="c-pos"><col><col class="c-form"><col class="c-gd"><col class="c-pts"></colgroup>
+        <thead><tr><th>#</th><th>Land</th><th>Vorm</th><th class="num">DS</th><th class="num">Ptn</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </article>`;
+  }
+
+  function render(data) {
+    if (data.season) document.getElementById('season').textContent = data.season;
+    document.getElementById('updated').textContent =
+      fmtDate(data.updatedAt, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+    app.innerHTML = LEAGUE_ORDER.filter((l) => data.leagues[l]).map((l) => {
+      const groups = Object.entries(data.leagues[l]).sort(([a], [b]) => a.localeCompare(b));
+      const teamCount = groups.reduce((s, [, t]) => s + t.length, 0);
+      return `<section class="league" id="league-${l}-sec" aria-labelledby="league-${l}">
+        <div class="league-head">
+          <h2 class="wide" id="league-${l}">League ${l}</h2>
+          <span class="side">${groups.length} groepen &middot; ${teamCount} landen</span>
+        </div>
+        <div class="groups">${groups.map(([k, t]) => groupCard(k, t, data.formLength || 5)).join('')}</div>
+      </section>`;
+    }).join('');
+  }
+
+  // Tooltip voor de vorm-bolletjes
+  const tip = document.getElementById('tip');
+  function showTip(el) {
+    if (!el.dataset.title) return;
+    tip.innerHTML = `<b>${el.dataset.title}</b>${el.dataset.body}`;
+    const r = el.getBoundingClientRect();
+    tip.classList.add('show');
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+    let y = r.top - h - 12;
+    if (y < 8) y = r.bottom + 12;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  const hideTip = () => tip.classList.remove('show');
+  app.addEventListener('mouseover', (e) => { const p = e.target.closest('.pill'); p ? showTip(p) : hideTip(); });
+  app.addEventListener('focusin', (e) => { const p = e.target.closest('.pill'); if (p) showTip(p); });
+  app.addEventListener('focusout', hideTip);
+  app.addEventListener('mouseleave', hideTip);
+  window.addEventListener('scroll', hideTip, { passive: true });
+
+  loadData().then((data) => (data && data.leagues ? render(data) : renderEmpty()));
+})();
+</script>
+</body>
+</html>

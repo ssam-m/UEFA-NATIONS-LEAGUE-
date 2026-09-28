@@ -1,0 +1,65 @@
+name: Vormlijst verversen
+
+on:
+  schedule:
+    # GitHub-cron draait in UTC. 01:00 UTC = 03:00 zomertijd, 02:00 UTC = 03:00 wintertijd.
+    # De eerste stap laat alleen de run door die in Nederland om 03:00 valt.
+    - cron: '0 1 * * *'
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Altijd verversen, ook als er gisteren niet gespeeld is'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-form
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Alleen om 03:00 Nederlandse tijd
+        id: gate
+        run: |
+          hour=$(TZ=Europe/Amsterdam date +%H)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$hour" = "03" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Het is $hour:xx in Amsterdam, deze run wordt overgeslagen."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          node-version: 22
+
+      - name: Data ophalen bij API-Football
+        if: steps.gate.outputs.run == 'true'
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+        run: node scripts/update-form.mjs
+
+      - name: Wijzigingen committen
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          if git diff --quiet -- data/ && [ -z "$(git ls-files --others --exclude-standard data/)" ]; then
+            echo "Geen nieuwe data."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "Vormlijst bijgewerkt $(TZ=Europe/Amsterdam date +%Y-%m-%d)"
+          git push
