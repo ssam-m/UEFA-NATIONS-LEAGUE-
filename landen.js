@@ -1,4 +1,4 @@
-// Nederlandse namen voor landen zoals API-Football ze (in het Engels) teruggeeft.
+// Nederlandse namen voor landen zoals de databron (ESPN) ze in het Engels teruggeeft.
 // Ook tegenstanders van buiten Europa staan erin, voor de vriendschappelijke duels en het WK.
 // Onbekende namen worden ongewijzigd getoond.
 window.LANDEN_NL = {
@@ -13,6 +13,7 @@ window.LANDEN_NL = {
   'Bosnia and Herzegovina': 'Bosnië en Herzegovina',
   'Bosnia & Herzegovina': 'Bosnië en Herzegovina',
   'Bosnia': 'Bosnië en Herzegovina',
+  'Bosnia-Herzegovina': 'Bosnië en Herzegovina',
   'Bulgaria': 'Bulgarije',
   'Croatia': 'Kroatië',
   'Cyprus': 'Cyprus',
@@ -105,6 +106,7 @@ window.LANDEN_NL = {
   'Cape Verde Islands': 'Kaapverdië',
   'Congo': 'Congo-Brazzaville',
   'Congo DR': 'DR Congo',
+  'Congo DR (Zaire)': 'DR Congo',
   'DR Congo': 'DR Congo',
   'Egypt': 'Egypte',
   'Equatorial Guinea': 'Equatoriaal-Guinea',
@@ -134,6 +136,7 @@ window.LANDEN_NL = {
   'Japan': 'Japan',
   'Jordan': 'Jordanië',
   'Korea Republic': 'Zuid-Korea',
+  'Republic of Korea': 'Zuid-Korea',
   'South Korea': 'Zuid-Korea',
   'North Korea': 'Noord-Korea',
   'New Zealand': 'Nieuw-Zeeland',
@@ -147,7 +150,7 @@ window.LANDEN_NL = {
   'Vietnam': 'Vietnam',
 };
 
-// Competitienamen van API-Football in het Nederlands.
+// Competitienamen in het Nederlands (het script levert ze meestal al in het Nederlands aan).
 window.COMPETITIES_NL = {
   'Friendlies': 'Vriendschappelijk',
   'UEFA Nations League': 'Nations League',

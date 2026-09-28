@@ -15,29 +15,28 @@ Dashboard dat voor elke groep van de UEFA Nations League een ranglijst toont op 
 | Onderdeel | Wat het doet |
 |---|---|
 | `index.html` | De dashboardpagina. Leest `data/form.js` en werkt ook als je het bestand gewoon opent (`file://`). |
-| `scripts/update-form.mjs` | Haalt bij [API-Football](https://www.api-football.com/) de groepsindeling en per land de laatste 5 wedstrijden op, en schrijft `data/form.json` + `data/form.js`. |
+| `landen.js` | Nederlandse namen voor landen en competities. |
+| `scripts/update-form.mjs` | Haalt bij de openbare ESPN-API de groepsindeling en per land de laatste 5 wedstrijden op, en schrijft `data/form.json` + `data/form.js`. |
 | `.github/workflows/update-form.yml` | Draait elke nacht om **03:00 (Nederlandse tijd)**. Ververst alleen als er **gisteren** een wedstrijd was van een deelnemend land. |
 
-Eén volledige verversing kost ongeveer 56 API-verzoeken. Dat past binnen het gratis plan van
-API-Football (100 per dag). Het script wacht 6,5 seconden tussen verzoeken, omdat het gratis plan
-maximaal 10 verzoeken per minuut toestaat. Een verversing duurt daardoor ongeveer 6 minuten.
+De ESPN-API is gratis en heeft geen key nodig. Hij is wel **officieus** (niet gedocumenteerd), dus
+ESPN kan hem zonder waarschuwing veranderen. Het script logt daarom per groep en per land wat het
+vindt; bij problemen staat de oorzaak in de log van de workflow-run.
+
+Per land zoekt het script in deze competities, telkens in het huidige en het vorige seizoen:
+Nations League, vriendschappelijk, WK, WK-kwalificatie, EK en EK-kwalificatie.
 
 ## Installatie
 
-1. Maak een account aan op <https://dashboard.api-football.com> en kopieer je API-key.
-2. Ga in GitHub naar **Settings → Secrets and variables → Actions** en voeg het secret
-   `API_FOOTBALL_KEY` toe.
-3. Ga naar **Actions → Vormlijst verversen → Run workflow**. Deze eerste run vult het dashboard.
-4. Optioneel: zet **Settings → Pages** op de standaard-branch (root). Dan staat het dashboard online.
+1. Ga naar **Actions → Vormlijst verversen → Run workflow**. Deze eerste run vult het dashboard.
+2. Zet **Settings → Pages** op branch `main`, map `/ (root)`. Het dashboard staat dan op
+   `https://<gebruikersnaam>.github.io/<repo-naam>/`.
 
 Lokaal draaien:
 
 ```bash
-API_FOOTBALL_KEY=jouw_key node scripts/update-form.mjs --force
+node scripts/update-form.mjs --force
 open index.html
 ```
 
 Andere instellingen: `NL_SEASON` (standaard `2026` = seizoen 2026-27) en `REQUEST_DELAY_MS`.
-
-> Let op: API-Football beperkt op het gratis plan soms de toegang tot bepaalde seizoenen en
-> parameters. Geeft de workflow een API-fout, dan staat de precieze melding in de log van de run.
