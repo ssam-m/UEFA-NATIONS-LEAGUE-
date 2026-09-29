@@ -148,6 +148,21 @@ window.LANDEN_NL = {
   'United Arab Emirates': 'Verenigde Arabische Emiraten',
   'Uzbekistan': 'Oezbekistan',
   'Vietnam': 'Vietnam',
+
+  // Overige tegenstanders (vriendschappelijk)
+  'Aruba': 'Aruba',
+  'Bahrain': 'Bahrein',
+  'Bangladesh': 'Bangladesh',
+  'British Virgin Islands': 'Britse Maagdeneilanden',
+  'Cayman Islands': 'Kaaimaneilanden',
+  'Comoros': 'Comoren',
+  'Grenada': 'Grenada',
+  'Namibia': 'Namibië',
+  'Rwanda': 'Rwanda',
+  'Sao Tome and Principe': 'Sao Tomé en Principe',
+  'Sierra Leone': 'Sierra Leone',
+  'Solomon Islands': 'Salomonseilanden',
+  'Tajikistan': 'Tadzjikistan',
 };
 
 // Competitienamen in het Nederlands (het script levert ze meestal al in het Nederlands aan).
