@@ -1,65 +1,69 @@
 #!/usr/bin/env node
-// Haalt via API-Football de groepsindeling van de UEFA Nations League op en
+// Haalt via de openbare ESPN-API de groepsindeling van de UEFA Nations League op en
 // per land de laatste 5 gespeelde interlands (alle competities). Schrijft het
 // resultaat naar data/form.json en data/form.js (dat laatste werkt ook vanaf file://).
 //
 // Gebruik:
-//   API_FOOTBALL_KEY=xxx node scripts/update-form.mjs          # alleen verversen als er gisteren gespeeld is
-//   API_FOOTBALL_KEY=xxx node scripts/update-form.mjs --force  # altijd verversen
+//   node scripts/update-form.mjs          # alleen verversen als er gisteren gespeeld is
+//   node scripts/update-form.mjs --force  # altijd verversen
 //
 // Optionele omgevingsvariabelen:
 //   NL_SEASON         seizoen van de Nations League (standaard 2026 = 2026-27)
-//   REQUEST_DELAY_MS  pauze tussen API-verzoeken (standaard 6500 ms, gratis plan = max 10 per minuut)
+//   REQUEST_DELAY_MS  pauze tussen API-verzoeken (standaard 150 ms)
+//
+// Let op: de ESPN-API is openbaar maar officieus (niet gedocumenteerd). Het script
+// logt daarom veel, zodat je in de log van de workflow kunt zien wat er gevonden is.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const API_BASE = 'https://v3.football.api-sports.io';
-const NATIONS_LEAGUE_ID = 5;
+const API_BASE = 'https://site.api.espn.com/apis';
+const STANDINGS_LEAGUE = 'uefa.nations';
+// Competities waarin landenteams spelen, met de Nederlandse naam voor op het dashboard.
+const COMPETITIONS = {
+  'uefa.nations': 'Nations League',
+  'fifa.friendly': 'Vriendschappelijk',
+  'fifa.world': 'WK',
+  'fifa.worldq.uefa': 'WK-kwalificatie',
+  'uefa.euro': 'EK',
+  'uefa.euroq': 'EK-kwalificatie',
+};
 const TIMEZONE = 'Europe/Amsterdam';
 const FORM_LENGTH = 5;
-const FINISHED = new Set(['FT', 'AET', 'PEN', 'AWD', 'WO']);
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const JSON_PATH = join(ROOT, 'data', 'form.json');
 const JS_PATH = join(ROOT, 'data', 'form.js');
 
-const API_KEY = process.env.API_FOOTBALL_KEY;
 const SEASON = Number(process.env.NL_SEASON || 2026);
-const DELAY_MS = Number(process.env.REQUEST_DELAY_MS ?? 6500);
+const DELAY_MS = Number(process.env.REQUEST_DELAY_MS ?? 150);
 const FORCE = process.argv.includes('--force') || process.env.FORCE === 'true';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 let requestCount = 0;
-async function api(path, params) {
+// Geeft de JSON terug, of null bij 404 (bijv. een competitie zonder data voor dat seizoen).
+async function api(path, params = {}) {
   const url = new URL(API_BASE + path);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
 
   for (let attempt = 1; attempt <= 3; attempt++) {
     if (requestCount > 0) await sleep(DELAY_MS);
     requestCount++;
-    const res = await fetch(url, { headers: { 'x-apisports-key': API_KEY } });
-    if (res.status === 429) {
-      console.warn(`429 op ${url.pathname}, opnieuw proberen na 60s...`);
-      await sleep(60_000);
-      continue;
+    try {
+      const res = await fetch(url, { headers: { accept: 'application/json' } });
+      if (res.status === 404) return null;
+      if (res.ok) return await res.json();
+      if (res.status < 500 && res.status !== 429) throw new Error(`HTTP ${res.status} op ${url}`);
+      console.warn(`HTTP ${res.status} op ${url.pathname}, poging ${attempt}/3`);
+    } catch (err) {
+      if (attempt === 3 || /HTTP 4/.test(err.message)) throw err;
+      console.warn(`Netwerkfout op ${url.pathname} (${err.message}), poging ${attempt}/3`);
     }
-    if (!res.ok) throw new Error(`HTTP ${res.status} op ${url}`);
-    const body = await res.json();
-    const errors = body.errors && Object.keys(body.errors).length ? body.errors : null;
-    if (errors) {
-      if (errors.rateLimit && attempt < 3) {
-        console.warn('Rate limit bereikt, opnieuw proberen na 60s...');
-        await sleep(60_000);
-        continue;
-      }
-      throw new Error(`API-fout op ${url.pathname}${url.search}: ${JSON.stringify(errors)}`);
-    }
-    return body.response;
+    await sleep(2000 * attempt);
   }
-  throw new Error(`Te vaak geweigerd door rate limit: ${url}`);
+  throw new Error(`Geen antwoord van ${url}`);
 }
 
 // Datum (YYYY-MM-DD) in Nederlandse tijd, met offset in dagen.
@@ -76,73 +80,115 @@ async function readExisting() {
   }
 }
 
-// "League A - Group 1", "League A: Group 1", "Liga A Grupo 1" -> { league: 'A', group: 1 }
+// Herkent namen als "League A Group 1", "League A - Group 1", "Group A1" of "A1".
 function parseGroupName(name) {
-  const m = /(?:League|Liga)\s*([A-D])\b.*?(?:Group|Grupo)\s*(\d)/i.exec(name || '');
-  return m ? { league: m[1].toUpperCase(), group: Number(m[2]) } : null;
+  const s = name || '';
+  const league = /(?:League|Liga)\s*([A-D])\b/i.exec(s)?.[1];
+  const group = /(?:Group|Grupo)\s*(?:[A-D]\s*)?(\d)\b/i.exec(s)?.[1];
+  if (league && group) return { league: league.toUpperCase(), group: Number(group) };
+  const short = /\b([A-D])\s*-?\s*(\d)\b/.exec(s);
+  return short ? { league: short[1].toUpperCase(), group: Number(short[2]) } : null;
+}
+
+// Loopt de (mogelijk geneste) standings-structuur af en geeft elke tabel met zijn volledige pad-naam.
+function collectTables(node, path = []) {
+  const name = node.name || node.abbreviation || '';
+  const here = name ? [...path, name] : path;
+  const tables = [];
+  if (node.standings?.entries?.length) tables.push({ name: here.join(' / '), entries: node.standings.entries });
+  for (const child of node.children || []) tables.push(...collectTables(child, here));
+  return tables;
+}
+
+function teamInfo(team) {
+  return {
+    id: String(team.id),
+    name: team.displayName || team.name || team.shortDisplayName,
+    logo: team.logos?.[0]?.href || team.logo || '',
+  };
 }
 
 async function fetchGroups() {
-  const response = await api('/standings', { league: NATIONS_LEAGUE_ID, season: SEASON });
-  const tables = response?.[0]?.league?.standings ?? [];
-  const leagues = {};
-  const seen = [];
+  let body = await api(`/v2/sports/soccer/${STANDINGS_LEAGUE}/standings`, { season: SEASON });
+  let tables = body ? collectTables(body) : [];
+  if (!tables.length) {
+    console.log('  Geen tabellen met seizoen-parameter, opnieuw zonder...');
+    body = await api(`/v2/sports/soccer/${STANDINGS_LEAGUE}/standings`);
+    tables = body ? collectTables(body) : [];
+  }
 
+  const leagues = {};
   for (const table of tables) {
-    const groupName = table[0]?.group;
-    seen.push(groupName);
-    const parsed = parseGroupName(groupName);
+    const parsed = parseGroupName(table.name);
+    console.log(`  Tabel "${table.name}" -> ${parsed ? parsed.league + parsed.group : 'niet herkend'} (${table.entries.length} landen)`);
     if (!parsed) continue;
-    const key = `${parsed.league}${parsed.group}`;
-    (leagues[parsed.league] ??= {})[key] = table.map((row) => ({
-      id: row.team.id,
-      name: row.team.name,
-      logo: row.team.logo,
-    }));
+    (leagues[parsed.league] ??= {})[`${parsed.league}${parsed.group}`] = table.entries.map((e) => teamInfo(e.team));
   }
 
   if (!Object.keys(leagues).length) {
-    throw new Error(`Geen groepen herkend in standings (seizoen ${SEASON}). Gevonden: ${JSON.stringify(seen)}`);
+    throw new Error(`Geen groepen herkend in de standings (seizoen ${SEASON}). Gevonden tabellen: ${JSON.stringify(tables.map((t) => t.name))}`);
   }
   return leagues;
 }
 
-function toMatch(fixture, teamId) {
-  const isHome = fixture.teams.home.id === teamId;
-  const them = isHome ? fixture.teams.away : fixture.teams.home;
-  const gf = isHome ? fixture.goals.home : fixture.goals.away;
-  const ga = isHome ? fixture.goals.away : fixture.goals.home;
-  if (gf == null || ga == null) return null;
+const scoreOf = (c) => {
+  const v = typeof c.score === 'object' && c.score !== null ? (c.score.value ?? c.score.displayValue) : c.score;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+};
 
+const isCompleted = (competition) => {
+  const type = competition?.status?.type || {};
+  return type.completed === true || type.state === 'post';
+};
+
+function toMatch(event, teamId, competitionName) {
+  const comp = event.competitions?.[0];
+  if (!comp || !isCompleted(comp)) return null;
+  const us = comp.competitors?.find((c) => String(c.id ?? c.team?.id) === teamId);
+  const them = comp.competitors?.find((c) => c !== us);
+  if (!us || !them) return null;
+  const gf = scoreOf(us);
+  const ga = scoreOf(them);
+  if (gf == null || ga == null) return null;
   // Uitslag na 90/120 minuten; een strafschoppenserie telt als gelijkspel.
   const result = gf > ga ? 'W' : gf < ga ? 'L' : 'D';
-
+  const opp = teamInfo(them.team || {});
   return {
-    date: fixture.fixture.date,
-    competition: fixture.league.name,
-    home: isHome,
-    opponent: them.name,
-    opponentLogo: them.logo,
+    id: String(event.id),
+    date: event.date || comp.date,
+    // Staat de competitie bij de wedstrijd zelf, gebruik die; anders de competitie waarin we zochten.
+    competition: COMPETITIONS[event.league?.slug] || competitionName,
+    home: us.homeAway === 'home',
+    opponent: opp.name,
+    opponentLogo: opp.logo,
     gf,
     ga,
-    status: fixture.fixture.status.short,
     result,
   };
 }
 
 async function fetchForm(team) {
-  // Vraag er iets meer op dan 5, zodat afgelaste/gestaakte duels eruit gefilterd kunnen worden.
-  const fixtures = await api('/fixtures', { team: team.id, last: 10, timezone: TIMEZONE });
-  const matches = fixtures
-    .filter((f) => FINISHED.has(f.fixture.status.short))
-    .sort((a, b) => b.fixture.timestamp - a.fixture.timestamp)
-    .map((f) => toMatch(f, team.id))
-    .filter(Boolean)
-    .slice(0, FORM_LENGTH);
+  const byId = new Map();
+  for (const [slug, compName] of Object.entries(COMPETITIONS)) {
+    for (const season of [SEASON, SEASON - 1]) {
+      const body = await api(`/site/v2/sports/soccer/${slug}/teams/${team.id}/schedule`, { season });
+      for (const event of body?.events || []) {
+        const m = toMatch(event, team.id, compName);
+        if (m && !byId.has(m.id)) byId.set(m.id, m);
+      }
+    }
+  }
+
+  const matches = [...byId.values()]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, FORM_LENGTH)
+    .map(({ id, ...m }) => m);
 
   const points = matches.reduce((s, m) => s + (m.result === 'W' ? 3 : m.result === 'D' ? 1 : 0), 0);
   const goalsFor = matches.reduce((s, m) => s + m.gf, 0);
   const goalsAgainst = matches.reduce((s, m) => s + m.ga, 0);
+  console.log(`    ${byId.size} gespeelde duels gevonden, vorm: ${matches.map((m) => m.result).reverse().join('') || '-'}`);
   return { ...team, points, goalsFor, goalsAgainst, goalDiff: goalsFor - goalsAgainst, matches };
 }
 
@@ -159,26 +205,26 @@ function rank(teams) {
 
 async function playedYesterday(teamIds) {
   const date = amsterdamDate(-1);
-  const fixtures = await api('/fixtures', { date, timezone: TIMEZONE });
-  const hits = fixtures.filter(
-    (f) =>
-      FINISHED.has(f.fixture.status.short) &&
-      (teamIds.has(f.teams.home.id) || teamIds.has(f.teams.away.id)),
-  );
-  for (const f of hits) console.log(`  ${date}: ${f.teams.home.name} ${f.goals.home}-${f.goals.away} ${f.teams.away.name}`);
-  return hits.length > 0;
+  let found = false;
+  for (const slug of Object.keys(COMPETITIONS)) {
+    const body = await api(`/site/v2/sports/soccer/${slug}/scoreboard`, { dates: date.replaceAll('-', '') });
+    for (const event of body?.events || []) {
+      const comp = event.competitions?.[0];
+      if (!isCompleted(comp)) continue;
+      if (comp.competitors?.some((c) => teamIds.has(String(c.id ?? c.team?.id)))) {
+        console.log(`  ${date}: ${event.name || event.shortName}`);
+        found = true;
+      }
+    }
+  }
+  return found;
 }
 
 async function main() {
-  if (!API_KEY) {
-    console.error('API_FOOTBALL_KEY ontbreekt. Zet deze als omgevingsvariabele of GitHub-secret.');
-    process.exit(1);
-  }
-
   const existing = await readExisting();
   if (!FORCE && existing?.leagues) {
     const ids = new Set(
-      Object.values(existing.leagues).flatMap((groups) => Object.values(groups).flatMap((g) => g.map((t) => t.id))),
+      Object.values(existing.leagues).flatMap((groups) => Object.values(groups).flatMap((g) => g.map((t) => String(t.id)))),
     );
     console.log(`Controleren of een van de ${ids.size} landen gisteren heeft gespeeld...`);
     if (!(await playedYesterday(ids))) {
@@ -206,6 +252,7 @@ async function main() {
   const data = {
     updatedAt: new Date().toISOString(),
     season: `${SEASON}-${String(SEASON + 1).slice(2)}`,
+    source: 'ESPN',
     formLength: FORM_LENGTH,
     leagues,
   };

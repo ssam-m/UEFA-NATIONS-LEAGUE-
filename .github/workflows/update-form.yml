@@ -23,7 +23,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - name: Alleen om 03:00 Nederlandse tijd
         id: gate
@@ -44,10 +44,9 @@ jobs:
         with:
           node-version: 22
 
-      - name: Data ophalen bij API-Football
+      - name: Data ophalen bij ESPN
         if: steps.gate.outputs.run == 'true'
         env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
         run: node scripts/update-form.mjs
 
