@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-05T01:19:16.815Z",
+  "updatedAt": "2026-10-06T01:19:11.804Z",
   "season": "2026-27",
   "source": "ESPN",
   "formLength": 5,
@@ -11,10 +11,20 @@
           "name": "Italy",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ita.png",
           "points": 10,
-          "goalsFor": 7,
-          "goalsAgainst": 4,
-          "goalDiff": 3,
+          "goalsFor": 9,
+          "goalsAgainst": 5,
+          "goalDiff": 4,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Türkiye",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
+              "gf": 3,
+              "ga": 1,
+              "result": "W"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -54,77 +64,6 @@
               "gf": 1,
               "ga": 0,
               "result": "W"
-            },
-            {
-              "date": "2026-06-03T18:45Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Luxembourg",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/lux.png",
-              "gf": 1,
-              "ga": 0,
-              "result": "W"
-            }
-          ]
-        },
-        {
-          "id": "459",
-          "name": "Belgium",
-          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
-          "points": 9,
-          "goalsFor": 10,
-          "goalsAgainst": 4,
-          "goalDiff": 6,
-          "matches": [
-            {
-              "date": "2026-10-02T18:45Z",
-              "competition": "Nations League",
-              "home": true,
-              "opponent": "Türkiye",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
-              "gf": 3,
-              "ga": 0,
-              "result": "W"
-            },
-            {
-              "date": "2026-09-28T18:45Z",
-              "competition": "Nations League",
-              "home": true,
-              "opponent": "France",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-              "gf": 0,
-              "ga": 1,
-              "result": "L"
-            },
-            {
-              "date": "2026-09-25T18:45Z",
-              "competition": "Nations League",
-              "home": false,
-              "opponent": "Italy",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/ita.png",
-              "gf": 2,
-              "ga": 0,
-              "result": "W"
-            },
-            {
-              "date": "2026-07-10T19:00Z",
-              "competition": "WK",
-              "home": false,
-              "opponent": "Spain",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
-              "gf": 1,
-              "ga": 2,
-              "result": "L"
-            },
-            {
-              "date": "2026-07-07T00:00Z",
-              "competition": "WK",
-              "home": false,
-              "opponent": "United States",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-              "gf": 4,
-              "ga": 1,
-              "result": "W"
             }
           ]
         },
@@ -132,11 +71,21 @@
           "id": "478",
           "name": "France",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-          "points": 7,
-          "goalsFor": 7,
-          "goalsAgainst": 9,
-          "goalDiff": -2,
+          "points": 10,
+          "goalsFor": 11,
+          "goalsAgainst": 8,
+          "goalDiff": 3,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Belgium",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+              "gf": 4,
+              "ga": 1,
+              "result": "W"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -176,14 +125,65 @@
               "gf": 4,
               "ga": 6,
               "result": "L"
+            }
+          ]
+        },
+        {
+          "id": "459",
+          "name": "Belgium",
+          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+          "points": 6,
+          "goalsFor": 7,
+          "goalsAgainst": 7,
+          "goalDiff": 0,
+          "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "France",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+              "gf": 1,
+              "ga": 4,
+              "result": "L"
             },
             {
-              "date": "2026-07-14T19:00Z",
-              "competition": "WK",
+              "date": "2026-10-02T18:45Z",
+              "competition": "Nations League",
               "home": true,
+              "opponent": "Türkiye",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
+              "gf": 3,
+              "ga": 0,
+              "result": "W"
+            },
+            {
+              "date": "2026-09-28T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "France",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+              "gf": 0,
+              "ga": 1,
+              "result": "L"
+            },
+            {
+              "date": "2026-09-25T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Italy",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/ita.png",
+              "gf": 2,
+              "ga": 0,
+              "result": "W"
+            },
+            {
+              "date": "2026-07-10T19:00Z",
+              "competition": "WK",
+              "home": false,
               "opponent": "Spain",
               "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
-              "gf": 0,
+              "gf": 1,
               "ga": 2,
               "result": "L"
             }
@@ -194,10 +194,20 @@
           "name": "Türkiye",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
           "points": 3,
-          "goalsFor": 4,
-          "goalsAgainst": 11,
-          "goalDiff": -7,
+          "goalsFor": 5,
+          "goalsAgainst": 13,
+          "goalDiff": -8,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Italy",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/ita.png",
+              "gf": 1,
+              "ga": 3,
+              "result": "L"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -237,16 +247,6 @@
               "gf": 3,
               "ga": 2,
               "result": "W"
-            },
-            {
-              "date": "2026-06-20T03:00Z",
-              "competition": "WK",
-              "home": true,
-              "opponent": "Paraguay",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
-              "gf": 0,
-              "ga": 1,
-              "result": "L"
             }
           ]
         }
@@ -1248,6 +1248,16 @@
           "goalDiff": 3,
           "matches": [
             {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Ukraine",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/ukr.png",
+              "gf": 2,
+              "ga": 1,
+              "result": "W"
+            },
+            {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
               "home": true,
@@ -1286,16 +1296,6 @@
               "gf": 3,
               "ga": 1,
               "result": "W"
-            },
-            {
-              "date": "2026-06-05T17:45Z",
-              "competition": "Vriendschappelijk",
-              "home": true,
-              "opponent": "Finland",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/fin.png",
-              "gf": 2,
-              "ga": 1,
-              "result": "W"
             }
           ]
         },
@@ -1303,11 +1303,21 @@
           "id": "586",
           "name": "Northern Ireland",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nir.png",
-          "points": 10,
-          "goalsFor": 6,
+          "points": 8,
+          "goalsFor": 5,
           "goalsAgainst": 3,
-          "goalDiff": 3,
+          "goalDiff": 2,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Georgia",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/geo.png",
+              "gf": 0,
+              "ga": 0,
+              "result": "D"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -1347,77 +1357,6 @@
               "gf": 1,
               "ga": 3,
               "result": "L"
-            },
-            {
-              "date": "2026-06-04T16:00Z",
-              "competition": "Vriendschappelijk",
-              "home": true,
-              "opponent": "Guinea",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/gui.png",
-              "gf": 1,
-              "ga": 0,
-              "result": "W"
-            }
-          ]
-        },
-        {
-          "id": "457",
-          "name": "Ukraine",
-          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ukr.png",
-          "points": 7,
-          "goalsFor": 4,
-          "goalsAgainst": 5,
-          "goalDiff": -1,
-          "matches": [
-            {
-              "date": "2026-10-02T18:45Z",
-              "competition": "Nations League",
-              "home": true,
-              "opponent": "Northern Ireland",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/nir.png",
-              "gf": 0,
-              "ga": 3,
-              "result": "L"
-            },
-            {
-              "date": "2026-09-28T16:00Z",
-              "competition": "Nations League",
-              "home": false,
-              "opponent": "Georgia",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/geo.png",
-              "gf": 0,
-              "ga": 0,
-              "result": "D"
-            },
-            {
-              "date": "2026-09-25T18:45Z",
-              "competition": "Nations League",
-              "home": false,
-              "opponent": "Hungary",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/hun.png",
-              "gf": 1,
-              "ga": 0,
-              "result": "W"
-            },
-            {
-              "date": "2026-06-07T16:30Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Denmark",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/den.png",
-              "gf": 1,
-              "ga": 2,
-              "result": "L"
-            },
-            {
-              "date": "2026-05-31T15:30Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Poland",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/pol.png",
-              "gf": 2,
-              "ga": 0,
-              "result": "W"
             }
           ]
         },
@@ -1426,10 +1365,20 @@
           "name": "Georgia",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/geo.png",
           "points": 5,
-          "goalsFor": 3,
-          "goalsAgainst": 3,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
           "goalDiff": 0,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Northern Ireland",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/nir.png",
+              "gf": 0,
+              "ga": 0,
+              "result": "D"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -1469,16 +1418,67 @@
               "gf": 2,
               "ga": 0,
               "result": "W"
+            }
+          ]
+        },
+        {
+          "id": "457",
+          "name": "Ukraine",
+          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ukr.png",
+          "points": 4,
+          "goalsFor": 3,
+          "goalsAgainst": 7,
+          "goalDiff": -4,
+          "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Hungary",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/hun.png",
+              "gf": 1,
+              "ga": 2,
+              "result": "L"
             },
             {
-              "date": "2026-06-02T17:00Z",
-              "competition": "Vriendschappelijk",
+              "date": "2026-10-02T18:45Z",
+              "competition": "Nations League",
               "home": true,
-              "opponent": "Romania",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/rom.png",
-              "gf": 1,
-              "ga": 1,
+              "opponent": "Northern Ireland",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/nir.png",
+              "gf": 0,
+              "ga": 3,
+              "result": "L"
+            },
+            {
+              "date": "2026-09-28T16:00Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Georgia",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/geo.png",
+              "gf": 0,
+              "ga": 0,
               "result": "D"
+            },
+            {
+              "date": "2026-09-25T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Hungary",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/hun.png",
+              "gf": 1,
+              "ga": 0,
+              "result": "W"
+            },
+            {
+              "date": "2026-06-07T16:30Z",
+              "competition": "Vriendschappelijk",
+              "home": false,
+              "opponent": "Denmark",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/den.png",
+              "gf": 1,
+              "ga": 2,
+              "result": "L"
             }
           ]
         }
@@ -1731,75 +1731,24 @@
       ],
       "B4": [
         {
-          "id": "452",
-          "name": "Bosnia-Herzegovina",
-          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
-          "points": 8,
-          "goalsFor": 8,
+          "id": "466",
+          "name": "Sweden",
+          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+          "points": 10,
+          "goalsFor": 7,
           "goalsAgainst": 6,
-          "goalDiff": 2,
+          "goalDiff": 1,
           "matches": [
             {
-              "date": "2026-10-02T18:45Z",
-              "competition": "Nations League",
-              "home": true,
-              "opponent": "Sweden",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
-              "gf": 1,
-              "ga": 1,
-              "result": "D"
-            },
-            {
-              "date": "2026-09-28T18:45Z",
+              "date": "2026-10-05T18:45Z",
               "competition": "Nations League",
               "home": false,
               "opponent": "Romania",
               "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/rom.png",
-              "gf": 4,
-              "ga": 2,
-              "result": "W"
-            },
-            {
-              "date": "2026-09-25T18:45Z",
-              "competition": "Nations League",
-              "home": false,
-              "opponent": "Poland",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/pol.png",
-              "gf": 0,
+              "gf": 1,
               "ga": 0,
-              "result": "D"
-            },
-            {
-              "date": "2026-07-02T00:00Z",
-              "competition": "WK",
-              "home": false,
-              "opponent": "United States",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-              "gf": 0,
-              "ga": 2,
-              "result": "L"
-            },
-            {
-              "date": "2026-06-24T19:00Z",
-              "competition": "WK",
-              "home": true,
-              "opponent": "Qatar",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
-              "gf": 3,
-              "ga": 1,
               "result": "W"
-            }
-          ]
-        },
-        {
-          "id": "466",
-          "name": "Sweden",
-          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
-          "points": 8,
-          "goalsFor": 7,
-          "goalsAgainst": 7,
-          "goalDiff": 0,
-          "matches": [
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -1839,16 +1788,67 @@
               "gf": 0,
               "ga": 3,
               "result": "L"
+            }
+          ]
+        },
+        {
+          "id": "452",
+          "name": "Bosnia-Herzegovina",
+          "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
+          "points": 8,
+          "goalsFor": 6,
+          "goalsAgainst": 5,
+          "goalDiff": 1,
+          "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Poland",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/pol.png",
+              "gf": 1,
+              "ga": 0,
+              "result": "W"
             },
             {
-              "date": "2026-06-25T23:00Z",
-              "competition": "WK",
-              "home": false,
-              "opponent": "Japan",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
+              "date": "2026-10-02T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Sweden",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
               "gf": 1,
               "ga": 1,
               "result": "D"
+            },
+            {
+              "date": "2026-09-28T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Romania",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/rom.png",
+              "gf": 4,
+              "ga": 2,
+              "result": "W"
+            },
+            {
+              "date": "2026-09-25T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Poland",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/pol.png",
+              "gf": 0,
+              "ga": 0,
+              "result": "D"
+            },
+            {
+              "date": "2026-07-02T00:00Z",
+              "competition": "WK",
+              "home": false,
+              "opponent": "United States",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
+              "gf": 0,
+              "ga": 2,
+              "result": "L"
             }
           ]
         },
@@ -1858,9 +1858,19 @@
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pol.png",
           "points": 5,
           "goalsFor": 9,
-          "goalsAgainst": 7,
-          "goalDiff": 2,
+          "goalsAgainst": 6,
+          "goalDiff": 3,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Bosnia-Herzegovina",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
+              "gf": 0,
+              "ga": 1,
+              "result": "L"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -1900,16 +1910,6 @@
               "gf": 2,
               "ga": 2,
               "result": "D"
-            },
-            {
-              "date": "2026-05-31T15:30Z",
-              "competition": "Vriendschappelijk",
-              "home": true,
-              "opponent": "Ukraine",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/ukr.png",
-              "gf": 0,
-              "ga": 2,
-              "result": "L"
             }
           ]
         },
@@ -1917,11 +1917,21 @@
           "id": "473",
           "name": "Romania",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rom.png",
-          "points": 4,
-          "goalsFor": 6,
+          "points": 3,
+          "goalsFor": 5,
           "goalsAgainst": 14,
-          "goalDiff": -8,
+          "goalDiff": -9,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Sweden",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+              "gf": 0,
+              "ga": 1,
+              "result": "L"
+            },
             {
               "date": "2026-10-02T18:45Z",
               "competition": "Nations League",
@@ -1961,16 +1971,6 @@
               "gf": 2,
               "ga": 1,
               "result": "W"
-            },
-            {
-              "date": "2026-06-02T17:00Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Georgia",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/geo.png",
-              "gf": 1,
-              "ga": 1,
-              "result": "D"
             }
           ]
         }
@@ -2228,11 +2228,21 @@
           "id": "6775",
           "name": "Montenegro",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mtg.png",
-          "points": 13,
-          "goalsFor": 10,
+          "points": 11,
+          "goalsFor": 9,
           "goalsAgainst": 6,
-          "goalDiff": 4,
+          "goalDiff": 3,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Armenia",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/fifa.armenia.png",
+              "gf": 0,
+              "ga": 0,
+              "result": "D"
+            },
             {
               "date": "2026-10-02T16:00Z",
               "competition": "Nations League",
@@ -2272,16 +2282,6 @@
               "gf": 2,
               "ga": 2,
               "result": "D"
-            },
-            {
-              "date": "2026-06-01T16:00Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Bulgaria",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/bul.png",
-              "gf": 1,
-              "ga": 0,
-              "result": "W"
             }
           ]
         },
@@ -2289,11 +2289,21 @@
           "id": "445",
           "name": "Cyprus",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cyp.png",
-          "points": 8,
-          "goalsFor": 6,
+          "points": 10,
+          "goalsFor": 7,
           "goalsAgainst": 3,
-          "goalDiff": 3,
+          "goalDiff": 4,
           "matches": [
+            {
+              "date": "2026-10-05T16:00Z",
+              "competition": "Nations League",
+              "home": true,
+              "opponent": "Latvia",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/lva.png",
+              "gf": 2,
+              "ga": 1,
+              "result": "W"
+            },
             {
               "date": "2026-10-02T16:00Z",
               "competition": "Nations League",
@@ -2333,16 +2343,6 @@
               "gf": 2,
               "ga": 0,
               "result": "W"
-            },
-            {
-              "date": "2026-06-04T16:00Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Slovenia",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/svn.png",
-              "gf": 1,
-              "ga": 1,
-              "result": "D"
             }
           ]
         },
@@ -2351,10 +2351,20 @@
           "name": "Armenia",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fifa.armenia.png",
           "points": 5,
-          "goalsFor": 6,
-          "goalsAgainst": 7,
+          "goalsFor": 5,
+          "goalsAgainst": 6,
           "goalDiff": -1,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Montenegro",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/mtg.png",
+              "gf": 0,
+              "ga": 0,
+              "result": "D"
+            },
             {
               "date": "2026-10-02T16:00Z",
               "competition": "Nations League",
@@ -2394,16 +2404,6 @@
               "gf": 1,
               "ga": 1,
               "result": "D"
-            },
-            {
-              "date": "2026-06-06T14:00Z",
-              "competition": "Vriendschappelijk",
-              "home": true,
-              "opponent": "Kazakhstan",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/kaz.png",
-              "gf": 1,
-              "ga": 1,
-              "result": "D"
             }
           ]
         },
@@ -2411,11 +2411,21 @@
           "id": "456",
           "name": "Latvia",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/lva.png",
-          "points": 2,
-          "goalsFor": 2,
-          "goalsAgainst": 6,
-          "goalDiff": -4,
+          "points": 1,
+          "goalsFor": 3,
+          "goalsAgainst": 8,
+          "goalDiff": -5,
           "matches": [
+            {
+              "date": "2026-10-05T16:00Z",
+              "competition": "Nations League",
+              "home": false,
+              "opponent": "Cyprus",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/cyp.png",
+              "gf": 1,
+              "ga": 2,
+              "result": "L"
+            },
             {
               "date": "2026-10-02T16:00Z",
               "competition": "Nations League",
@@ -2455,16 +2465,6 @@
               "gf": 1,
               "ga": 2,
               "result": "L"
-            },
-            {
-              "date": "2025-11-13T17:00Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "North Macedonia",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/mkd.png",
-              "gf": 0,
-              "ga": 0,
-              "result": "D"
             }
           ]
         }
@@ -3030,10 +3030,20 @@
           "name": "Gibraltar",
           "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gib.png",
           "points": 9,
-          "goalsFor": 9,
+          "goalsFor": 7,
           "goalsAgainst": 2,
-          "goalDiff": 7,
+          "goalDiff": 5,
           "matches": [
+            {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Vriendschappelijk",
+              "home": false,
+              "opponent": "Liechtenstein",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/lie.png",
+              "gf": 2,
+              "ga": 0,
+              "result": "W"
+            },
             {
               "date": "2026-10-01T18:45Z",
               "competition": "Nations League",
@@ -3072,16 +3082,6 @@
               "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/cay.png",
               "gf": 4,
               "ga": 1,
-              "result": "W"
-            },
-            {
-              "date": "2026-06-03T17:00Z",
-              "competition": "Vriendschappelijk",
-              "home": true,
-              "opponent": "British Virgin Islands",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/bvr.png",
-              "gf": 4,
-              "ga": 0,
               "result": "W"
             }
           ]
@@ -3281,6 +3281,16 @@
           "goalDiff": -8,
           "matches": [
             {
+              "date": "2026-10-05T18:45Z",
+              "competition": "Vriendschappelijk",
+              "home": true,
+              "opponent": "Gibraltar",
+              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/gib.png",
+              "gf": 0,
+              "ga": 2,
+              "result": "L"
+            },
+            {
               "date": "2026-10-01T16:00Z",
               "competition": "Nations League",
               "home": false,
@@ -3316,16 +3326,6 @@
               "home": true,
               "opponent": "Cyprus",
               "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/cyp.png",
-              "gf": 0,
-              "ga": 2,
-              "result": "L"
-            },
-            {
-              "date": "2026-06-04T17:00Z",
-              "competition": "Vriendschappelijk",
-              "home": false,
-              "opponent": "Andorra",
-              "opponentLogo": "https://a.espncdn.com/i/teamlogos/countries/500/and.png",
               "gf": 0,
               "ga": 2,
               "result": "L"
